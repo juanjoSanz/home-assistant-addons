@@ -11,7 +11,7 @@ arch:
   - armhf
   - armv7
   - i386
-image: openspeedtest/latest
+image: openspeedtest/latest:latest
 init: false
 ports:
   3000/tcp: 3000
