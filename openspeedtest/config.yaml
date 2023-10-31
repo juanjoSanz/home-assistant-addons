@@ -2,9 +2,13 @@ name: OpenSpeedTest
 version: v2.0.3
 slug: openspeedtest
 description: Free & Open-Source HTML5 Network Performance Estimation Tool
-panel_admin: false
 panel_icon: "mdi:speedometer"
 panel_title: SpeedTest
+webui: http://[HOST]:[PORT:3000]
+ingress: true
+ingress_port: 3000
+ingress_entry: /
+panel_admin: false
 arch:
   - aarch64
   - amd64
@@ -20,5 +24,5 @@ ports_description:
   3000/tcp: HTTP
   3001/tcp: HTTPS
 url: https://hub.docker.com/r/openspeedtest/latest
-webui: http://[HOST]:[PORT:3000]
+
 
