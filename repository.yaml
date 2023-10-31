@@ -1,4 +1,4 @@
 # https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
 name: Juanjo's Home Assistant add-ons repository
 url: 'https://github.com/juanjoSanz/home-assistant-addons'
-maintainer: tronikos
+maintainer: JuanjoSanz

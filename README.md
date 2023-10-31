@@ -8,4 +8,10 @@ This repository contains the following add-ons:
 
 ### [OpenSpeedTest](./openspeedtest)
 
+Original developed by [tronikos](https://github.com/tronikos) [OpenSpeedTest Addon](https://github.com/tronikos/home-assistant-addons)
+
+### [NX584 Interface Server](./nx584)
+
+Original developed by [kk7ds](https://github.com/kk7ds) [NX584 Interface Server](https://github.com/kk7ds/pynx584)
+
 _Free & Open-Source HTML5 Network Performance Estimation Tool._
