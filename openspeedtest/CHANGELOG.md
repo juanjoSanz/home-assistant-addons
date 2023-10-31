@@ -1,4 +1,4 @@
-## 1.0.0
+## v2.0.4
 - Add arm64 support
 - Add side panel entry
 
