@@ -54,7 +54,7 @@ if bashio::config.true 'serial.enabled'; then
 
     ## Start nx server using serial Interface
     bashio::log.info "Starting NX584 Server on Serial interface..."
-    python3 /usr/bin/nx584_server  --listen 0.0.0.0 --port 5007 --serial $serial_dev --baud $serial_baud --config /data/config.ini $DEBUG
+    python3 /usr/bin/nx584_server  --listen 0.0.0.0 --port 5007 --serial $serial_dev --baud $serial_baud --config /usr/app/src/config.ini $DEBUG
 
 elif bashio::config.true 'socat.enabled'; then
     bashio::log.info "socat enabled"
