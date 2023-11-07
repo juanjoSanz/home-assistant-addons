@@ -28,21 +28,26 @@ fi
 idle_time_heartbeat_seconds=$(bashio::config 'config.idle_time_heartbeat_seconds')
 sed -i "s/###IDLE_TIME_HEARTBEAT###/${idle_time_heartbeat_seconds}/g" /usr/app/src/config.ini 
 ZONES="$(bashio::config 'config.zones')"
+
+
+# Script to split a string based on the delimiter
+IFS=',' read -ra my_array <<< "$ZONES"
 count=1
-for item in $ZONES
+for item in "${my_array[@]}"
 do
   echo "$count = $item" >> /usr/app/src/config.ini 
   count=$((count + 1))
 done
 
-bashio::log.info $(cat /usr/app/src/config.ini )
+bashio::log.info "---"
+bashio::log.info "$(cat /usr/app/src/config.ini )"
+bashio::log.info "---"
 
 DEBUG=""
 if bashio::config.true 'debug_enabled'; then
   bashio::log.info " * DEBUG Mode ON..."
   DEBUG="--debug "
 fi
-
 
 
 # Serial
@@ -65,9 +70,4 @@ elif bashio::config.true 'socat.enabled'; then
     ## Start nx server using socat interface
     python3 /usr/bin/nx584_server --listen 0.0.0.0 --port 5007 --connect ${socat_host}:${socat_port} --config /usr/app/src/config.ini $DEBUG
 fi
-
-
-
-
-
 
