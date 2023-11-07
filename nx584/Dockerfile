@@ -16,7 +16,7 @@ RUN /usr/bin/nx584_server --help
 WORKDIR /usr/app/src
 # config.ini to be created in run.sh
 # COPY config.ini .
-COPY config.ini_template
+COPY config.ini_template config.ini_template
 
 # Copy data for add-on
 COPY run.sh /

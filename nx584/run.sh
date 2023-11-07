@@ -3,6 +3,39 @@
 bashio::log.info $(cat /etc/os-release)
 bashio::log.info "Preparing to start..."
 
+# To-DO Build /data/config.ini dynamically taking config files
+config=$(bashio::config 'config')
+bashio::log.info "LOG: $config"
+
+cp config.ini_template /usr/app/src/config.ini 
+config_max_zone=$(bashio::config 'config.max_zone')
+sed -i "s/###MAX_ZONE###/$config_max_zone/g" /usr/app/src/config.ini 
+if bashio::config.true 'config.zone_name_update'; then
+  sed -i 's/###ZONE_NAME_UPDATE###/True/g' /usr/app/src/config.ini 
+else
+  sed -i 's/###ZONE_NAME_UPDATE###/False/g' /usr/app/src/config.ini 
+fi
+if bashio::config.true 'config.euro_date_format'; then
+  sed -i 's/###EURO_DATE_FORMAT###/True/g' /usr/app/src/config.ini 
+else
+  sed -i 's/###EURO_DATE_FORMAT###/False/g' /usr/app/src/config.ini 
+fi
+if bashio::config.true 'config.use_binary_protocol'; then
+  sed -i 's/###USE_BINARY_PROTOCOL###/True/g' /usr/app/src/config.ini 
+else
+  sed -i 's/###USE_BINARY_PROTOCOL###/False/g' /usr/app/src/config.ini 
+fi
+idle_time_heartbeat_seconds=$(bashio::config 'config.idle_time_heartbeat_seconds')
+sed -i "s/###IDLE_TIME_HEARTBEAT###/${idle_time_heartbeat_seconds}/g" /usr/app/src/config.ini 
+ZONES="$(bashio::config 'config.zones')"
+count=1
+for item in $ZONES
+do
+  echo "$count = $item" >> /usr/app/src/config.ini 
+  count=$((count + 1))
+done
+
+bashio::log.info $(cat /usr/app/src/config.ini )
 
 DEBUG=""
 if bashio::config.true 'debug_enabled'; then
@@ -10,9 +43,7 @@ if bashio::config.true 'debug_enabled'; then
   DEBUG="--debug "
 fi
 
-# To-DO Build /data/config.ini dynamically taking config files
-config=$(bashio::config 'config')
-bashio::log.info "LOG: $config"
+
 
 # Serial
 if bashio::config.true 'serial.enabled'; then
