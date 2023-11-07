@@ -3,10 +3,7 @@
 bashio::log.info $(cat /etc/os-release)
 bashio::log.info "Preparing to start..."
 
-# To-DO Build /data/config.ini dynamically taking config files
-config=$(bashio::config 'config')
-bashio::log.info "LOG: $config"
-
+# Build /usr/app/src/config.ini dynamically from config properties
 cp config.ini_template /usr/app/src/config.ini 
 config_max_zone=$(bashio::config 'config.max_zone')
 sed -i "s/###MAX_ZONE###/$config_max_zone/g" /usr/app/src/config.ini 
@@ -29,7 +26,6 @@ idle_time_heartbeat_seconds=$(bashio::config 'config.idle_time_heartbeat_seconds
 sed -i "s/###IDLE_TIME_HEARTBEAT###/${idle_time_heartbeat_seconds}/g" /usr/app/src/config.ini 
 ZONES="$(bashio::config 'config.zones')"
 
-
 # Script to split a string based on the delimiter
 IFS=',' read -ra my_array <<< "$ZONES"
 count=1
@@ -40,7 +36,7 @@ do
 done
 
 bashio::log.info "---"
-bashio::log.info "$(cat /usr/app/src/config.ini )"
+bashio::log.info "\n$(cat /usr/app/src/config.ini )"
 bashio::log.info "---"
 
 DEBUG=""
@@ -48,7 +44,6 @@ if bashio::config.true 'debug_enabled'; then
   bashio::log.info " * DEBUG Mode ON..."
   DEBUG="--debug "
 fi
-
 
 # Serial
 if bashio::config.true 'serial.enabled'; then

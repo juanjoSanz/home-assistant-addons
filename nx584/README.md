@@ -2,7 +2,6 @@
 
 Instructions:
 
-1. Set serial configuration on Add-On 
+1. Add Repository to HA Add Ons
 
-2. Place config.ini on data folder, path should be similar to:
-`/srv/hassio/addons/data/3472fe33_nx584`
+2. Set config properties
