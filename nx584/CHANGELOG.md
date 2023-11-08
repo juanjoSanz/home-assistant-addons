@@ -1,3 +1,6 @@
+## 1.0.6
+- watchdog to monitor add-on
+  
 ## 1.0.5
 - Moving config.ini to add-on schema (initial dev)
 - Python Base image [https://github.com/hassio-addons/addon-base-python]

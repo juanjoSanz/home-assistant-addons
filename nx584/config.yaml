@@ -1,6 +1,6 @@
 name: "NX-584"
 description: "Interface to GE/CaddX/NetworkX alarm systems via NX-584/NX8E"
-version: "1.0.5"
+version: "1.0.6"
 slug: "nx584"
 init: false
 uart: true
@@ -14,6 +14,7 @@ arch:
   - i386
 ports:
   5007/tcp: 5007
+watchdog: tcp://[HOST]:5007
 options:
   serial:
    enabled: true
