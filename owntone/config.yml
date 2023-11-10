@@ -6,7 +6,7 @@ description: OwnTone is a Linux/FreeBSD DAAP (iTunes) media server with support 
 arch:
   - aarch64
   - amd64
-image: lscr.io/linuxserver/daapd:latest
+image: linuxserver/daapd:28.8-ls124
 ports:
   3688/tcp: 3688
   6600/tcp: 6600
