@@ -15,3 +15,8 @@ Original developed by [tronikos](https://github.com/tronikos) [OpenSpeedTest Add
 Original developed by [kk7ds](https://github.com/kk7ds) [NX584 Interface Server](https://github.com/kk7ds/pynx584)
 
 _Free & Open-Source HTML5 Network Performance Estimation Tool._
+
+
+### [OwnTone](./onetone)
+
+Original developed by [a-marcel](https://github.com/a-marcel) [hassio-addon-owntone](https://github.com/a-marcel/hassio-addon-owntone/)
