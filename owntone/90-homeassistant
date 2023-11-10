@@ -14,11 +14,30 @@ fi
 
 chown -R abc:abc /share/owntone/dbase_and_logs /share/owntone /share/owntone/music
 
+# ugly part
+cp /usr/share/owntone/htdocs/assets/index.js /usr/share/owntone/htdocs/assets/index_changed.js
+sed -i -e "s/e=\"\/stream.mp3\"/e=\"stream.mp3\"/" /usr/share/owntone/htdocs/assets/index_changed.js
+# ugly part - end
+
+
+#chown abc:abc /var/log/owntone.log
+
+IP=$(ifconfig eth0 | grep "inet addr:" | cut -d : -f 2 | cut -d " " -f 1)
 
 OPTIONS_PATH=/data/options.json
 CONFIG_PATH=/etc/owntone.conf
 
-cp /defaults/owntone.conf $CONFIG_PATH
+cp /etc/owntone.conf.orig $CONFIG_PATH
+
+sed -i -e "/^#\?general {$/,/^#\?}$/s/^#\?\s*uid = .*/uid = \"abc\"/" $CONFIG_PATH
+#sed -i -e "/^#\?general {$/,/^#\?}$/s/^#\?\s*logfile = .*/logfile = \"\/var\/log\/owntone.log\"/" $CONFIG_PATH
+
+sed -i -e "/^#\?general {$/,/^#\?}$/s/^#\?\s*db_path = .*/db_path = \"\/share\/owntone\/dbase_and_logs\/songs3.db\"/" $CONFIG_PATH
+
+#sed -i -e "/^#\?general {$/,/^#\?}$/s/^#\?\s*bind_address = .*/bind_address = \"${IP}\"/" $CONFIG_PATH
+
+# Change port for local nginx
+#sed -i -e "/^#\?library {$/,/^#\?}$/s/^#\?\s*port = .*/port = 36890/" $CONFIG_PATH
 
 # General
 
@@ -29,6 +48,7 @@ if [ ! -z "$PASSWORD" ]; then
 fi
 
 TRUSTED_NETWORKS=$(jq -j --raw-output '.general.trusted_networks // empty | join("\",\"")' $OPTIONS_PATH)
+
 
 if [ ! -z "$TRUSTED_NETWORKS" ]; then
 	sed -i -e "/^#\?general {$/,/^#\?}$/s/^#\?\s*trusted_networks = .*/trusted_networks = { \"${TRUSTED_NETWORKS}\" }/" $CONFIG_PATH
@@ -167,6 +187,7 @@ if [ ! -z $AIRPLAY_DEVICES ] && [ "$AIRPLAY_DEVICES" -ge "1" ]; then
 		AIRPLAY_NICKNAME=$(jq -j --raw-output ".airplay[$k] .nickname // empty" $OPTIONS_PATH)
 		AIRPLAY_PASSWORD=$(jq -j --raw-output ".airplay[$k] .password // empty" $OPTIONS_PATH)
 		AIRPLAY_EXCLUDE=$(jq -j --raw-output ".airplay[$k] .exclude // empty" $OPTIONS_PATH)
+		AIRPLAY_RECONNECT=$(jq -j --raw-output ".airplay[$k] .reconnect // empty" $OPTIONS_PATH)
 
 
 		if [ ! -z "$AIRPLAY_NAME" ]; then
@@ -201,6 +222,12 @@ if [ ! -z $AIRPLAY_DEVICES ] && [ "$AIRPLAY_DEVICES" -ge "1" ]; then
 				AIRPLAY_EXCLUDE="exclude = false"
 			fi
 
+			if [ ! -z "$AIRPLAY_RECONNECT" ] && [ "$AIRPLAY_RECONNECT" = "true" ]; then
+				AIRPLAY_RECONNECT="reconnect = true"
+			else
+				AIRPLAY_RECONNECT="reconnect = false"
+			fi
+
 			if [ ! -z "$AIRPLAY_MAX_VOLUME" ] && [ "$AIRPLAY_MAX_VOLUME" -ge "0" ]; then
                                 AIRPLAY_MAX_VOLUME="max_volume = $AIRPLAY_MAX_VOLUME"
                         else
@@ -214,10 +241,10 @@ if [ ! -z $AIRPLAY_DEVICES ] && [ "$AIRPLAY_DEVICES" -ge "1" ]; then
 				$AIRPLAY_PASSWORD
 				$AIRPLAY_RAOP_DISABLE
 				$AIRPLAY_MAX_VOLUME
+				$AIRPLAY_RECONNECT
 			}" >> $CONFIG_PATH
 		fi;
 
 	done
 fi
-
 
