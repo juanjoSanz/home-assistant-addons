@@ -1,7 +1,9 @@
 FROM linuxserver/daapd:28.8-ls124
 
+
 ARG BUILD_ARCH
 
+RUN apk add --no-cache nginx
 RUN apk add --no-cache jq
 
 RUN sed -i -e s#"ipv6 = yes"#"ipv6 = no"#g /etc/owntone.conf.orig \
@@ -21,6 +23,10 @@ RUN sed -i -e s#"ipv6 = yes"#"ipv6 = no"#g /etc/owntone.conf.orig \
     && sed -i "/type\ =/ s/#/ /" /etc/owntone.conf.orig \
     && sed -i 's/\(type =\).*/\1 "pulseaudio"/' /etc/owntone.conf.orig
 
+RUN mkdir /etc/services.d/nginx
+
 ADD 90-homeassistant /etc/cont-init.d/90-homeassistant
+ADD nginx/ /etc/services.d/nginx/
+ADD nginx-config.conf /etc/nginx/http.d/default.conf
 
 RUN chmod +x /etc/cont-init.d/90-homeassistant
