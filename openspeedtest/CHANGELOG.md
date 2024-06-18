@@ -1,4 +1,4 @@
-## v2.5.4
+## v2.0.5
  - openspeedtest updated
 
 ## v2.0.4
