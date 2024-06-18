@@ -1,3 +1,7 @@
+## 1.0.7
+
+- ingress: true
+
 ## 1.0.6
 - watchdog to monitor add-on
   
