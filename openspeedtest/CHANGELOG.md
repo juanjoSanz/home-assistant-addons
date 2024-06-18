@@ -1,3 +1,6 @@
+## v2.5.4
+ - openspeedtest updated
+
 ## v2.0.4
 - Add arm64 support
 - Add side panel entry
