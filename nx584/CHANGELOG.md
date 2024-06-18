@@ -1,6 +1,8 @@
-## 1.0.7
+## 1.0.8
 
 - ingress: true
+- ingress_stream: true
+- apparmor: true
 
 ## 1.0.6
 - watchdog to monitor add-on
