@@ -1,0 +1,8 @@
+- name: Install openwisp2
+  hosts: localhost
+  connection: local
+  ### not needed### become: "{{ become | default('yes') }}"
+  roles:
+    - openwisp.openwisp2
+  vars:
+    postfix_myhostname: localhost

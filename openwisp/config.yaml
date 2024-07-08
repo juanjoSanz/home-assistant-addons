@@ -1,0 +1,22 @@
+name: OpenWISP
+version: 0.0.1
+slug: openwisp
+description: OpenWISP is an open source network management system
+panel_icon: "mdi:alpha-w-circle"
+panel_title: OpenWISP
+webui: http://[HOST]:[PORT:8000]
+ingress: true
+ingress_port: 8000
+ingress_entry: /
+panel_admin: false
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+image: homeassistant/{arch}-openwisp
+init: false
+ports:
+  8000/tcp: 8000
+
+
