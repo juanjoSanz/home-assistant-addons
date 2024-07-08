@@ -22,3 +22,7 @@ _Free & Open-Source HTML5 Network Performance Estimation Tool._
 Original developed by [a-marcel](https://github.com/a-marcel) [hassio-addon-owntone](https://github.com/a-marcel/hassio-addon-owntone/)
 
 _OwnTone is a Linux/FreeBSD DAAP (iTunes) media server with support for AirPlay devices, Apple Remote (and compatibles), MPD, Spotify, Chromecast, mp3 streaming and internet radio. It allows you to share your music collection over the local network._
+
+### [Frigate Beta Full-Access RK](./frigate_fa_beta_rk)
+
+NVR with realtime local object detection for IP cameras.

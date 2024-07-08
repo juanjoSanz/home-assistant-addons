@@ -7,6 +7,10 @@ RUN pip3 install --upgrade pip
 RUN git clone https://github.com/kk7ds/pynx584
 RUN pip3 install pynx584/
 
+## Possible feature: mqtt
+## https://github.com/rocket4321/nx584mqtt/tree/main/nx584mqtt
+## pip install nx584mqtt
+
 # Verify python installation
 RUN which python3
 
