@@ -1,0 +1,29 @@
+2024-10-28 12:56:55.197517266    File "/opt/frigate/frigate/detectors/plugins/rknn.py", line 67, in get_soc
+2024-10-28 12:56:55.197524558      with open("/proc/device-tree/compatible") as file:
+2024-10-28 12:56:55.197677099  FileNotFoundError: [Errno 2] No such file or directory: '/proc/device-tree/compatible'
+2024-10-28 12:56:55.197781807  
+2024-10-28 12:56:55.197788516  During handling of the above exception, another exception occurred:
+2024-10-28 12:56:55.197790849  
+2024-10-28 12:56:55.197865515  Traceback (most recent call last):
+2024-10-28 12:56:55.198010765    File "/usr/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+2024-10-28 12:56:55.198014848      self.run()
+2024-10-28 12:56:55.198076973    File "/usr/lib/python3.9/multiprocessing/process.py", line 108, in run
+2024-10-28 12:56:55.198081057      self._target(*self._args, **self._kwargs)
+2024-10-28 12:56:55.198140265    File "/opt/frigate/frigate/object_detection.py", line 102, in run_detector
+2024-10-28 12:56:55.198145515      object_detector = LocalObjectDetector(detector_config=detector_config)
+2024-10-28 12:56:55.198205306    File "/opt/frigate/frigate/object_detection.py", line 53, in __init__
+2024-10-28 12:56:55.198209681      self.detect_api = create_detector(detector_config)
+2024-10-28 12:56:55.198270056    File "/opt/frigate/frigate/detectors/__init__.py", line 18, in create_detector
+2024-10-28 12:56:55.198274139      return api(detector_config)
+2024-10-28 12:56:55.198332764    File "/opt/frigate/frigate/detectors/plugins/rknn.py", line 36, in __init__
+2024-10-28 12:56:55.198336264      soc = self.get_soc()
+2024-10-28 12:56:55.198394889    File "/opt/frigate/frigate/detectors/plugins/rknn.py", line 70, in get_soc
+2024-10-28 12:56:55.198399556      raise Exception("Make sure to run docker in privileged mode.")
+2024-10-28 12:56:55.198483847  Exception: Make sure to run docker in privileged mode.
+2024-10-28 12:56:55.198805846  Exception ignored in: <function Rknn.__del__ at 0xffff87ba3d30>
+2024-10-28 12:56:55.198869138  Traceback (most recent call last):
+2024-10-28 12:56:55.198935929    File "/opt/frigate/frigate/detectors/plugins/rknn.py", line 63, in __del__
+2024-10-28 12:56:55.199716719      self.rknn.release()
+2024-10-28 12:56:55.199908927  AttributeError: 'Rknn' object has no attribute 'rknn'
+
+docker exec -it <mycontainer> bash 
