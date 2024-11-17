@@ -56,3 +56,9 @@ arch:
 map:
   - "media:rw"
   - "config:rw"
+devices:
+- /dev/dri
+- /dev/dma_heap
+- /dev/rga
+- /dev/mpp_service
+apparmor: false

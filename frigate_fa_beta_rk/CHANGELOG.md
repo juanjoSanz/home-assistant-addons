@@ -2,6 +2,7 @@
 ### 0.15.0-beta1
 
 - Update to 0.15.0-beta1 [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.15.0-beta1)
+- add devices as shown in https://docs.frigate.video/frigate/installation/
 
 ### 0.14.1
 Update to 0.14.1 release notes
