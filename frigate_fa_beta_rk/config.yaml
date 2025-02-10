@@ -64,7 +64,7 @@ devices:
 usb: true
 video: true
 tmpfs: true
-full_access: false
+full_access: true
 privileged:
   - PERFMON
 environment:
