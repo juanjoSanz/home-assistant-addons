@@ -12,8 +12,6 @@ arch:
   - armhf
   - armv7
   - i386
-ingress: true
-ingress_stream: true
 ports:
   5007/tcp: 5007
 apparmor: true
