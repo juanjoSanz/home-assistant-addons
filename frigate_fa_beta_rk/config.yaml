@@ -48,16 +48,18 @@ security_opt:
   - apparmor=unconfined
   - systempaths=unconfined
 devices:
+  - /dev/dri/renderD128
+  - /dev/dri/renderD129
   - /dev/dri
   - /dev/dma_heap
   - /dev/rga
   - /dev/mpp_service
-  - /dev/dri/renderD128
   - /dev/apex_0
   - /dev/apex_1
   - /dev/apex_2
   - /dev/apex_3
   - /dev/dri/card0
+  - /dev/dri/card1
   - /dev/vchiq
   - /dev/video10
   - /dev/video0
