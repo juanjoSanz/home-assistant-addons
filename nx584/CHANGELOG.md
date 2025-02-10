@@ -1,3 +1,7 @@
+## 1.0.9
+
+ - remove ingress options
+
 ## 1.0.8
 
 - ingress: true
