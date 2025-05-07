@@ -1,5 +1,5 @@
 name: Frigate (Full Access) RockChip
-version: 0.15.1-rk
+version: 0.16.0-beta1-rk
 breaking_versions:
   - 0.15.0-rk
   - 0.14.1-rk
@@ -74,4 +74,6 @@ arch:
 map:
   - "media:rw"
   - "config:rw"
+  # Mount old config dir to be migrated by the image
+  - "homeassistant_config:rw"
 devicetree: true
