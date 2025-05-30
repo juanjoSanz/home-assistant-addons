@@ -1,5 +1,5 @@
 name: Frigate (Full Access) RockChip
-version: 0.16.0-beta1-rk
+version: 0.16.0-beta2-rk
 breaking_versions:
   - 0.15.0-rk
   - 0.14.1-rk
