@@ -1,5 +1,4 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
+FROM ghcr.io/hassio-addons/addon-base-python:latest
 
 RUN git clone https://github.com/ngardiner/TWCManager \
     && cd TWCManager \
@@ -8,4 +7,4 @@ RUN git clone https://github.com/ngardiner/TWCManager \
 
 COPY config.json /etc/twcmanager/config.json
 
-ENTRYPOINT ["python3 -m TWCManager]
+ENTRYPOINT ["python3", "-m", "TWCManager"]

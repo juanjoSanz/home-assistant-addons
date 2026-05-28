@@ -1,4 +1,0 @@
----
-build_from:
-  aarch64: ghcr.io/hassio-addons/addon-base-python/aarch64:latest
-  amd64: ghcr.io/hassio-addons/addon-base-python/amd64:latest
