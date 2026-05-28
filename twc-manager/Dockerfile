@@ -16,7 +16,7 @@ ENV PIP_BREAK_SYSTEM_PACKAGES=1
 ENV PIPX_BIN_DIR=/usr/local/bin
 ENV PIPX_HOME=/opt/pipx
 
-RUN apt-get -y update && apt-get -y install build-essential ca-certificates gfortran git libopenblas-dev libcap2-bin lsb-release make python3 pipx util-linux wget \
+RUN apt-get -y update && apt-get -y install build-essential ca-certificates gfortran git libopenblas-dev libcap2-bin lsb-release make python3 python3-build pipx util-linux wget \
     && ln -sf /usr/bin/pipx /usr/local/bin/pip3 \
     && ln -sf /usr/bin/pipx /usr/local/bin/pip \
     && cd /usr/src \
