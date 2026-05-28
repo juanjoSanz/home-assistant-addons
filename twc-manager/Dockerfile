@@ -1,8 +1,8 @@
 ARG BUILD_ARCH
-FROM ghcr.io/home-assistant/base-debian-python:latest
+FROM ghcr.io/home-assistant/base-debian:latest
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends git build-essential \
+    && apt-get install -y --no-install-recommends git build-essential python3 python3-pip \
     && rm -rf /var/lib/apt/lists/* \
     && git clone https://github.com/ngardiner/TWCManager \
     && cd TWCManager \
