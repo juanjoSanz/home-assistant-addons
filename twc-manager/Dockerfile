@@ -1,19 +1,17 @@
 ARG BUILD_ARCH
 FROM ghcr.io/home-assistant/base-debian:latest
 
-# bypass sudo
-RUN echo '#!/bin/sh' > /usr/bin/sudo \
-    && echo 'exec "$@"' >> /usr/bin/sudo \
-    && chmod +x /usr/bin/sudo \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends git build-essential python3 python3-pip \
-    && git clone https://github.com/ngardiner/TWCManager \
-    && cd TWCManager \
-    && git checkout main \
-    && make install \
-    && apt-get purge -y --auto-remove git build-essential \
-    && rm -rf /var/lib/apt/lists/*
+# From: https://github.com/ngardiner/TWCManager/blob/main/contrib/docker/Dockerfile
+# Changed base image to match Home Assistant's base image
 
-COPY config.json /etc/twcmanager/config.json
+RUN apt-get -y update && apt-get -y install build-essential ca-certificates gfortran git libatlas-base-dev libcap2-bin lsb-release make python3 python3-pip util-linux wget
+RUN cd /usr/src && git clone https://github.com/ngardiner/TWCManager
 
-ENTRYPOINT ["python3", "-m", "TWCManager"]
+# Install TWCManager
+RUN cd /usr/src/TWCManager && make docker SUDO=""
+
+VOLUME /etc/twcmanager
+WORKDIR /usr/src/TWCManager
+
+ENTRYPOINT ["./contrib/docker/entrypoint.sh"]
+CMD ["/usr/bin/python3","-m","TWCManager"]
