@@ -1,5 +1,5 @@
 ARG BUILD_ARCH
-FROM ghcr.io/hassio-addons/base-python:latest
+FROM ghcr.io/home-assistant/base-python:latest
 
 RUN git clone https://github.com/ngardiner/TWCManager \
     && cd TWCManager \
