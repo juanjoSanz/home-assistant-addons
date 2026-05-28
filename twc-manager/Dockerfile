@@ -1,4 +1,5 @@
-FROM ghcr.io/hassio-addons/addon-base-python:latest
+ARG BUILD_ARCH
+FROM ghcr.io/hassio-addons/base-python:latest
 
 RUN git clone https://github.com/ngardiner/TWCManager \
     && cd TWCManager \
