@@ -12,11 +12,21 @@ ENV PYTHONUNBUFFERED=1
 # Allows installing pip packages at the system level in Python 3.11+
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 
-RUN apt-get -y update && apt-get -y install build-essential ca-certificates gfortran git libopenblas-dev libcap2-bin lsb-release make python3 python3-pip util-linux wget
-RUN cd /usr/src && git clone https://github.com/ngardiner/TWCManager
+# pipx environment variables
+ENV PIPX_BIN_DIR=/usr/local/bin
+ENV PIPX_HOME=/opt/pipx
 
-# Install TWCManager
-RUN cd /usr/src/TWCManager && make docker SUDO=""
+RUN apt-get -y update && apt-get -y install build-essential ca-certificates gfortran git libopenblas-dev libcap2-bin lsb-release make python3 pipx util-linux wget \
+    && ln -sf /usr/bin/pipx /usr/local/bin/pip3 \
+    && ln -sf /usr/bin/pipx /usr/local/bin/pip \
+    && cd /usr/src \
+    && git clone https://github.com/ngardiner/TWCManager \
+    # Install TWCManager
+    && cd /usr/src/TWCManager \
+    && make docker SUDO="" \
+    && apt-get -y autoremove \
+    && apt-get -y clean \
+    && rm -rf /var/lib/apt/lists/*
 
 VOLUME /etc/twcmanager
 WORKDIR /usr/src/TWCManager
