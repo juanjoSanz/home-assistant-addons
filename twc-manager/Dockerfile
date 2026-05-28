@@ -1,9 +1,10 @@
 ARG BUILD_ARCH
-FROM ghcr.io/home-assistant/base-python:latest
+FROM ghcr.io/home-assistant/base-debian-python:latest
 
-RUN apk add --no-cache git build-base
-
-RUN git clone https://github.com/ngardiner/TWCManager \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git build-essential \
+    && rm -rf /var/lib/apt/lists/* \
+    && git clone https://github.com/ngardiner/TWCManager \
     && cd TWCManager \
     && git checkout main \
     && make install
