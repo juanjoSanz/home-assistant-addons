@@ -20,8 +20,8 @@ watchdog: tcp://[HOST]:8080
 options:
   serial:
    enabled: true
-   device: "/dev/serial/by-id/usb-xxx"
-   baud: "9600"
+   device: "/dev/serial/by-id/usb-WCH.CN_USB_Quad_Serial_BD65F0ABCD-if00"
+   baud: "115200"
   config:
    twc_ip: "10.0.0.0"
   debug_enabled: false
