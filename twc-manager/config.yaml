@@ -10,13 +10,13 @@ arch:
   - aarch64
   - amd64
 ports:
-  80/tcp: 80
-  8080/tcp: 8080
+  81/tcp: 80
+  8081/tcp: 8080
 ports_description:
-  80/tcp: TWC Manager web interface
-  8080/tcp: TWC Manager web interface
+  81/tcp: TWC Manager web interface
+  8081/tcp: TWC Manager web interface
 apparmor: true
-watchdog: tcp://[HOST]:8080
+watchdog: tcp://[HOST]:8081
 options:
   serial:
    enabled: true
