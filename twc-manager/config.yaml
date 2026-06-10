@@ -5,7 +5,7 @@ slug: "twc-manager"
 init: false
 uart: true
 map:
- - "config:rw"
+  - "config:rw"
 arch:
   - aarch64
   - amd64
@@ -16,20 +16,20 @@ ports_description:
   80/tcp: TWC Manager web interface
   8080/tcp: TWC Manager web interface
 apparmor: true
-watchdog: tcp://[HOST]:8080
+watchdog: "tcp://127.0.0.1:8080"
 options:
   serial:
-   enabled: true
-   device: "/dev/serial/by-id/usb-WCH.CN_USB_Quad_Serial_BD65F0ABCD-if00"
-   baud: "115200"
+    enabled: true
+    device: "/dev/serial/by-id/usb-WCH.CN_USB_Quad_Serial_BD65F0ABCD-if00"
+    baud: "115200"
   config:
-   twc_ip: "10.0.0.0"
+    twc_ip: "10.0.0.0"
   debug_enabled: false
 schema:
   serial:
-   enabled: "bool"
-   device: "str"
-   baud: "str"
+    enabled: "bool"
+    device: "str"
+    baud: "str"
   config:
-   twc_ip: "str"
+    twc_ip: "str"
   debug_enabled: "bool"
