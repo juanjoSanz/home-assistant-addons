@@ -28,8 +28,12 @@ RUN apt-get -y update && apt-get -y install build-essential ca-certificates gfor
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/*
 
+
 VOLUME /etc/twcmanager
 WORKDIR /usr/src/TWCManager
+
+# Le dice a Python que busque módulos en el directorio actual
+ENV PYTHONPATH=/usr/src/TWCManager
 
 ENTRYPOINT ["./contrib/docker/entrypoint.sh"]
 CMD ["/usr/bin/python3","-m","TWCManager"]
