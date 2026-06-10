@@ -11,6 +11,9 @@ RUN cd /usr/src && git clone https://github.com/ngardiner/TWCManager
 # Setting PEP 668 bypass environment variable so `make docker` pip dependencies install correctly 
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 
+# FIX: Overwrites the system pip install without looking for missing Debian RECORD files
+ENV PIP_IGNORE_INSTALLED=1
+
 # Install TWCManager
 RUN cd /usr/src/TWCManager && make docker SUDO=""
 
