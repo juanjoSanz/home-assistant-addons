@@ -36,4 +36,4 @@ WORKDIR /usr/src/TWCManager
 ENV PYTHONPATH=/usr/src/TWCManager
 
 ENTRYPOINT ["./contrib/docker/entrypoint.sh"]
-CMD ["/usr/bin/python3","-m","TWCManager"]
+CMD ["/usr/bin/python3", "TWCManager.py"]
