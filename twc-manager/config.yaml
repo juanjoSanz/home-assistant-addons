@@ -16,7 +16,7 @@ ports_description:
   80/tcp: TWC Manager web interface
   8080/tcp: TWC Manager web interface
 apparmor: true
-watchdog: "tcp://127.0.0.1:8080"
+watchdog: "tcp://[HOST]:8080"
 options:
   serial:
    enabled: true
