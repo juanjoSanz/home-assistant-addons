@@ -1,16 +1,11 @@
 name: Frigate (Full Access) RockChip
 version: 0.17.1-rk
-breaking_versions:
-  - 0.17.0-beta2-rk
-  - 0.16.0-rk
-  - 0.15.0-rk
-  - 0.14.0-rk
 panel_icon: "mdi:cctv"
 panel_title: Frigate
 slug: frigate-fa-beta-rk
 description: NVR with realtime local object detection for IP cameras
 url: "https://github.com/blakeblackshear/frigate"
-image: ghcr.io/blakeblackshear/frigate
+image: ghcr.io/blakeblackshear/frigate:{version}
 startup: application
 boot: auto
 init: false
@@ -49,20 +44,15 @@ devices:
   # extra
   - /dev/dri/renderD128
   - /dev/dri/renderD129
-  - /dev/apex_0
-  - /dev/apex_1
-  - /dev/apex_2
-  - /dev/apex_3
   - /dev/dri/card0
   - /dev/dri/card1
-  - /dev/vchiq
-  - /dev/video10
-  - /dev/video0
-  - /dev/hailo0
-  - /dev/hailo1
 usb: true
 video: true
-tmpfs: true
+tmpfs:
+  - target: /tmp/fcache
+    size: 1g
+environment_vars:
+  FRIGATE_CACHE_DIR: /tmp/cache
 full_access: true
 privileged:
   - PERFMON
