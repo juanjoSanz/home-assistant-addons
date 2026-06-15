@@ -70,4 +70,5 @@ map:
   # Mount old config dir to be migrated by the image
   - "homeassistant_config:rw"
   - /sys/:/sys/:ro
+  - /proc/device-tree/compatible:/proc/device-tree/compatible:ro 
 devicetree: true
