@@ -17,6 +17,8 @@ ENV PIP_BREAK_SYSTEM_PACKAGES=1
 # FIX: Overwrites the system pip install without looking for missing Debian RECORD files
 ENV PIP_IGNORE_INSTALLED=1
 
+# Install Pyhton dependencies for TWCManager Gen3
+RUN pip install pymodbus
 # Install TWCManager
 RUN cd /usr/src/TWCManager && make docker SUDO=""
 
@@ -29,7 +31,8 @@ VOLUME /etc/twcmanager
 WORKDIR /usr/src/TWCManager
 
 # Copy data for add-on
-COPY run.sh /
+COPY --chown=root:root run.sh /
+COPY --chown=root:root config.json /
 RUN chmod a+x /run.sh
 
 CMD [ "/run.sh" ]
