@@ -1,6 +1,9 @@
 ARG BUILD_ARCH
 FROM ghcr.io/home-assistant/base-debian:latest
 
+# Docker test:
+#docker run -it --rm --entrypoint /bin/bash ghcr.io/home-assistant/base-debian:latest
+
 # From: https://github.com/ngardiner/TWCManager/blob/main/contrib/docker/Dockerfile
 # Changed base image to match Home Assistant's base image
 # also replaced libatlas-base-dev with libopenblas-dev 
@@ -25,5 +28,8 @@ RUN apt-get -y autoremove \
 VOLUME /etc/twcmanager
 WORKDIR /usr/src/TWCManager
 
-ENTRYPOINT ["./contrib/docker/entrypoint.sh"]
-CMD ["/usr/bin/python3","-m","TWCManager"]
+# Copy data for add-on
+COPY run.sh /
+RUN chmod a+x /run.sh
+
+CMD [ "/run.sh" ]
