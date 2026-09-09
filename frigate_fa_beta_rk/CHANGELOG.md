@@ -1,22 +1,26 @@
+### 0.18.0-rc2-rk
+
+- Update to 0.18.0-rc2-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.18.0-rc2)
+
 ### 0.17.2-rk
 
-- Update to 0.17.2-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.17.2-rk)
+- Update to 0.17.2-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.17.2)
 
 ### 0.17.1-rk
 
-- Update to 0.17.1-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.17.1-rk)
+- Update to 0.17.1-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.17.1)
 
 ### 0.17.0-beta2-rk
 
-- Update to 0.17.0-beta2-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.17.0-beta2-rk)
+- Update to 0.17.0-beta2-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.17.0-beta2)
 
 ### 0.16.2-rk
 
-- Update to 0.16.2-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.16.2-rk)
+- Update to 0.16.2-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.16.2)
   
 ### 0.16.1-rk
 
-- Update to 0.16.1-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.16.1-rk)
+- Update to 0.16.1-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.16.1)
 
 ### 0.16.0-rc1
 
