@@ -18,7 +18,7 @@ if bashio::config.true 'serial.enabled'; then
     serial_baud=$(bashio::config 'serial.baud')
 
     ## Change config file to use $serial_dev $serial_baud
-    bashio::log.info "Setting $serial_dev Serial interface..."
+    bashio::log.info "Setting $serial_dev Serial interface with $serial_baud..."
     sed -id "s|/dev/ttyUSB0|$serial_dev|" /etc/twcmanager/config.json
     sed -id "s|\"baud\": 9600,|\"baud\": $serial_baud,|" /etc/twcmanager/config.json
 fi
