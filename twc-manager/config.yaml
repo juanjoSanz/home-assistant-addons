@@ -25,14 +25,14 @@ options:
   config:
     twc_ip: "192.168.1.100"
     # Example: 60 A breaker -> 60 x 0.8 = 48 ; 40 x 0.8 = 32 ; 30 x 0.8 = 24
-    fuseAmps: 32 
-    phases: 3         
+    fuseAmps: "32"
+    phases: "3"         
   mqtt:
     enabled: false
     host: "homeassistant"
-    port: 1883
-    user: mqtt_twcmanager
-    password: xxxxxxxx   
+    port: "1883"
+    user: "mqtt_twcmanager"
+    password: "xxxxxxxx"
     mqtt_consumption_topic: "homeassistant/sensor/twcmanager_consumption/state"
     mqtt_generation_topic: "homeassistant/sensor/twcmanager_generation/state"
   debug_enabled: false

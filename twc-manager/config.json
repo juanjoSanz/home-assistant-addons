@@ -291,7 +291,7 @@
         "twcID": "AB"
       },
       "RS485": {
-        "enabled": true,
+        "enabled": false,
 
         # TWC's RS485 port runs at 9600 baud which has been verified with an
         # oscilloscope. Don't change this unless something changes in future hardware.
@@ -338,11 +338,11 @@
         "listenPort": 8080
       },
       "MQTT": {
-        "enabled": false,
-        "brokerIP": "192.168.1.2",
+        "enabled": ####MQTT_ENABLED###,
+        "brokerIP": "###MQTTBROKER###",
         "topicPrefix": "TWC",
-        "username": "mqttuser",
-        "password": "mqttpass"
+        "username": "###MQTTUSER###",
+        "password": "###MQTTPASS###"
       },
       "OCPP": {
           "enabled": false,
