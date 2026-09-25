@@ -892,7 +892,7 @@
         "port": "###USBPORT_GEN3###",
     
         # Neurio meter serial parameters - do not change unless advised.
-        "baudrate": 115200,
+        "baudrate": ###USBPORT_BAUDRATE###",
         "stopbits": 1,
         "bytesize": 8,
         "parity": "N",
