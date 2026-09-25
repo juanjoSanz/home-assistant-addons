@@ -17,18 +17,19 @@ if bashio::config.true 'serial.enabled'; then
     ## Get variables from the user config options.
     serial_dev=$(bashio::config 'serial.device')
     serial_baud=$(bashio::config 'serial.baud')
-    twc_address=$(bashio::config 'config.twc_ip')
     fuse_amps=$(bashio::config 'config.fuseAmps')
     phases=$(bashio::config 'config.phases')
+    twc_address=$(bashio::config 'config.twc_ip')
 
-    ## Change config file to use $serial_dev $serial_baud
-    bashio::log.info "Setting $serial_dev Serial interface with $serial_baud..."
-    #sed -id "s|/dev/ttyUSB0|$serial_dev|" /etc/twcmanager/config.json
-    #sed -id "s|\"baud\": 9600,|\"baud\": $serial_baud,|" /etc/twcmanager/config.json
+    ## Change config file
+    bashio::log.info "Setting USB SERIAL with $serial_dev and $serial_baud..."
     sed -id "s|###USBPORT_GEN3###|$serial_dev|" /etc/twcmanager/config.json
-    sed -id "s|###USBPORT_GEN2###|$twc_address|" /etc/twcmanager/config.json
+    sed -id "s|###USBPORT_BAUDRATE###|$serial_baud|" /etc/twcmanager/config.json
+    bashio::log.info "Setting ###FUSEAMPS### with $fuse_amps..."
     sed -id "s|###FUSEAMPS###|$fuse_amps|" /etc/twcmanager/config.json
     sed -id "s|###PHASES###|$phases|" /etc/twcmanager/config.json
+    bashio::log.info "Setting ###IP_GEN3### with $twc_address..."
+    sed -id "s|###IP_GEN3###|$twc_address|" /etc/twcmanager/config.json
 
 fi
 
