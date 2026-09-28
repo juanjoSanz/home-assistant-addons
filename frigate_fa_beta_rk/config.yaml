@@ -38,6 +38,7 @@ security_opt:
   - systempaths=unconfined
 devices:
   - /dev/dri
+  - /dev/rknn
   - /dev/dma_heap
   - /dev/rga
   - /dev/mpp_service
@@ -71,4 +72,5 @@ map:
   - "homeassistant_config:rw"
   - /sys/:/sys/:ro
   - /proc/device-tree/compatible:/proc/device-tree/compatible:ro 
+  - /etc/localtime:/etc/localtime:ro
 devicetree: true

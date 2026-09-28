@@ -465,7 +465,7 @@
         "use_icons": true,
 
         "Console": {
-            "enabled": true,
+            "enabled": true
             # simple logging format omits timestamp and colorization
             #"simple": true
         },
@@ -553,7 +553,7 @@
           "brokerIP": "192.168.1.2",
           "username": "mqttuser",
           "password": "mqttpass",
-          "topic": "dsmr/json",
+          "topic": "dsmr/json"
         },
       # The Efergy server allows fetching of consumption from https://engage.efergy.com/ token is needed
         "Efergy": {
@@ -885,7 +885,7 @@
     # circuit breaker rating x 0.8 (same convention as wiringMaxAmpsAllTWCs).
     #
     "controller.Gen3TWCs": {
-        "enabled": true,
+        "enabled": ###USBPORT_GEN3_ENABLE###,
     
         # Serial port connected to the Gen3 Neurio meter RS485 bus.
         # Use 'dmesg | grep ttyUSB' to identify the correct adapter.

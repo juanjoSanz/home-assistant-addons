@@ -3,6 +3,10 @@
 bashio::log.info $(cat /etc/os-release)
 bashio::log.info "Preparing to start..."
 
+debug_enabled=$(bashio::config 'debug.enabled')
+if [ "$debug_enabled" = "true" ]; then
+    bashio::log.info "Debug enabled, setting log level to DEBUG"
+fi
 
 # Entrypoint script for Docker image of TWCManager.
 # Prepare the configuration for the first time
@@ -14,7 +18,6 @@ cp /config.json /etc/twcmanager/config.json
 # Serial enabled - set port
 if bashio::config.true 'serial.enabled'; then
 
-    ## Get variables from the user config options.
     serial_dev=$(bashio::config 'serial.device')
     serial_baud=$(bashio::config 'serial.baud')
     fuse_amps=$(bashio::config 'config.fuseAmps')
@@ -22,6 +25,7 @@ if bashio::config.true 'serial.enabled'; then
     twc_address=$(bashio::config 'config.twc_ip')
 
     ## Change config file
+    sed -i "s|###USBPORT_GEN3_ENABLE###|true|" /etc/twcmanager/config.json
     bashio::log.info "Setting USB SERIAL with $serial_dev and $serial_baud..."
     sed -i "s|###USBPORT_GEN3###|$serial_dev|" /etc/twcmanager/config.json
     sed -i "s|###USBPORT_BAUDRATE###|$serial_baud|" /etc/twcmanager/config.json
@@ -31,6 +35,8 @@ if bashio::config.true 'serial.enabled'; then
     bashio::log.info "Setting ###IP_GEN3### with $twc_address..."
     sed -i "s|###IP_GEN3###|$twc_address|" /etc/twcmanager/config.json
 
+else
+    sed -i "s|###USBPORT_GEN3_ENABLE###|false|" /etc/twcmanager/config.json
 fi
 
 
@@ -56,6 +62,11 @@ if bashio::config.true 'mqtt.enabled'; then
 else
     bashio::log.info "MQTT disabled"
     sed -i "s|###MQTTENABLE###|false|" /etc/twcmanager/config.json
+fi
+
+
+if [ "$debug_enabled" = "true" ]; then
+    cat /etc/twcmanager/config.json | grep -v "\s*#" | bashio::log.info
 fi
 
 

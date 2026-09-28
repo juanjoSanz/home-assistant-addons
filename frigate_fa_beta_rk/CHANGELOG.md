@@ -1,3 +1,21 @@
+### 0.18.0.test1-rk
+
+- Force /dev/rknn* creation:
+´´´
+$ ls -l /dev/rknn*
+ls: no se puede acceder a '/dev/rknn*': No existe el fichero o el directorio
+$ sudo cat /sys/kernel/debug/rknpu/version
+RKNPU driver: v0.9.2
+
+
+$ sudo mknod /dev/rknn c 243 0
+$ sudo chmod 666 /dev/rknn
+$ ls -l /dev/rknn
+crw-rw-rw- 1 root root 243, 0 sep 28 14:19 /dev/rknn
+
+$ sudo echo 1 > /dev/rknn && echo "Ok!"
+´´´
+
 ### 0.18.0-rk
 
 - Update to 0.18.0-rk [release notes](https://github.com/blakeblackshear/frigate/releases/tag/v0.18.0-rk)
