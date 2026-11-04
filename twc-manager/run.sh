@@ -6,6 +6,7 @@ bashio::log.info "Preparing to start..."
 debug_enabled=$(bashio::config 'debug_enabled')
 if [ "$debug_enabled" = "true" ]; then
     bashio::log.info "Debug enabled, setting log level to DEBUG"
+    bashio::log.level "debug"
 fi
 
 # Entrypoint script for Docker image of TWCManager.
@@ -25,18 +26,18 @@ if bashio::config.true 'serial.enabled'; then
     twc_address=$(bashio::config 'config.twc_ip')
 
     ## Change config file
-    sed -in "s|###USBPORT_GEN3_ENABLE###|true|gp" /etc/twcmanager/config.json
+    sed -i "s|###USBPORT_GEN3_ENABLE###|true|g" /etc/twcmanager/config.json
     bashio::log.info "Setting USB SERIAL with $serial_dev and $serial_baud..."
-    sed -in "s|###USBPORT_GEN3###|$serial_dev|gp" /etc/twcmanager/config.json
-    sed -in "s|###USBPORT_BAUDRATE###|$serial_baud|gp" /etc/twcmanager/config.json
+    sed -i "s|###USBPORT_GEN3###|$serial_dev|g" /etc/twcmanager/config.json
+    sed -i "s|###USBPORT_BAUDRATE###|$serial_baud|g" /etc/twcmanager/config.json
     bashio::log.info "Setting ###FUSEAMPS### with $fuse_amps..."
-    sed -in "s|###FUSEAMPS###|$fuse_amps|gp" /etc/twcmanager/config.json
-    sed -in "s|###PHASES###|$phases|gp" /etc/twcmanager/config.json
+    sed -i "s|###FUSEAMPS###|$fuse_amps|g" /etc/twcmanager/config.json
+    sed -i "s|###PHASES###|$phases|g" /etc/twcmanager/config.json
     bashio::log.info "Setting ###IP_GEN3### with $twc_address..."
-    sed -in "s|###IP_GEN3###|$twc_address|gp" /etc/twcmanager/config.json
+    sed -i "s|###IP_GEN3###|$twc_address|g" /etc/twcmanager/config.json
 
 else
-    sed -in "s|###USBPORT_GEN3_ENABLE###|false|gp" /etc/twcmanager/config.json
+    sed -i "s|###USBPORT_GEN3_ENABLE###|false|g" /etc/twcmanager/config.json
 fi
 
 
@@ -52,22 +53,27 @@ if bashio::config.true 'mqtt.enabled'; then
 
     ## Change config file to use MQTT variables
     bashio::log.info "Setting MQTT broker ..."
-    sed -in "s|###MQTT_ENABLE###|true|gp" /etc/twcmanager/config.json
-    sed -in "s|###MQTT_BROKER###|$mqtt_broker|gp" /etc/twcmanager/config.json
-    sed -in "s|###MQTT_PORT###|$mqtt_port|gp" /etc/twcmanager/config.json
-    sed -in "s|###MQTT_USER###|$mqtt_user|gp" /etc/twcmanager/config.json
-    sed -in "s|###MQTT_PASS###|$mqtt_pass|gp" /etc/twcmanager/config.json
-    sed -in "s|###MQTT_CONSUMPTION_TOPIC###|$mqtt_consumption_topic|gp" /etc/twcmanager/config.json
-    sed -in "s|###MQTT_GENERATION_TOPIC###|$mqtt_generation_topic|gp" /etc/twcmanager/config.json
+    sed -i "s|###MQTT_ENABLE###|true|g" /etc/twcmanager/config.json
+    sed -i "s|###MQTT_BROKER###|$mqtt_broker|g" /etc/twcmanager/config.json
+    sed -i "s|###MQTT_PORT###|$mqtt_port|g" /etc/twcmanager/config.json
+    sed -i "s|###MQTT_USER###|$mqtt_user|g" /etc/twcmanager/config.json
+    sed -i "s|###MQTT_PASS###|$mqtt_pass|g" /etc/twcmanager/config.json
+    sed -i "s|###MQTT_CONSUMPTION_TOPIC###|$mqtt_consumption_topic|g" /etc/twcmanager/config.json
+    sed -i "s|###MQTT_GENERATION_TOPIC###|$mqtt_generation_topic|g" /etc/twcmanager/config.json
 else
     bashio::log.info "MQTT disabled"
-    sed -in "s|###MQTT_ENABLE###|false|gp" /etc/twcmanager/config.json
+    sed -i "s|###MQTT_ENABLE###|false|g" /etc/twcmanager/config.json
 fi
 
 
-if [ "$debug_enabled" = "true" ]; then
-    cat /etc/twcmanager/config.json | grep -v "\s*#" | bashio::log.info
-fi
+
+#cat /etc/twcmanager/config.json | grep -v "\s*#" | bashio::log.debug
+#diff /config.json /etc/twcmanager/config.json
+bashio::log.debug "--- Config changes: ---"
+diff -u  /config.json /etc/twcmanager/config.json | while IFS= read -r linea; do
+    bashio::log.debug "${linea}"
+done
+
 
 
 /usr/bin/python3 -m TWCManager 
