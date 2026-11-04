@@ -335,10 +335,10 @@
       },
       "MQTT": {
         "enabled": ####MQTT_ENABLED###,
-        "brokerIP": "###MQTTBROKER###",
+        "brokerIP": "###MQTT_BROKER###",
         "topicPrefix": "TWC",
-        "username": "###MQTTUSER###",
-        "password": "###MQTTPASS###"
+        "username": "###MQTT_USER###",
+        "password": "###MQTT_PASS###"
       },
       "OCPP": {
           "enabled": false,
@@ -680,10 +680,10 @@
         },
         "MQTT": {
         "enabled": ###MQTT_ENABLED###,
-          "brokerIP": "###MQTTBROKER###",
+          "brokerIP": "###MQTT_BROKER###",
       # The MQTT EMS module subscribes to the below topics to read Consumption/Generation values
-          "username": "###MQTTUSER###",
-          "password": "###MQTTPASS###",
+          "username": "###MQTT_USER###",
+          "password": "###MQTT_PASS###",
           "topicConsumption": "###MQTT_CONSUMPTION_TOPIC###",
           "topicGeneration": "###MQTT_GENERATION_TOPIC###"
         },

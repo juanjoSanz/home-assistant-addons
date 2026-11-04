@@ -1,6 +1,6 @@
 name: "TWC-Manager"
 description: "TWC Manager via RS485"
-version: "1.4.beta2"
+version: "1.4.beta3"
 slug: "twc-manager"
 init: false
 uart: true
