@@ -80,9 +80,8 @@
         # Depending on your environment and experience with GPS location quality, you
         # may want to choose how close a car needs to be to your home location to be
         # considered "at home". Value is given in feet, one foot is about 0.3 meters.
-        # The default value is 10560 feet (2 miles), as cars in the past had quite some
-        # issues with location accuracy. Do not set this too low, but about 1000 feet
-        # should be safe usually.
+        # The default value is 1000 feet. Do not set this much lower, as a car's GPS
+        # position can drift.
         # Note the covered area is actually not a circle, but a square with a side length
         # of 2 * atHomeRadius (measured east-west & south-north).
         # "atHomeRadius": 1000,
@@ -90,6 +89,8 @@
         # Newer TWCs can report actual voltages.  For older TWCs, you can specify
         # what voltage should be assumed and whether the power is single (1) or
         # 3-phase.
+        # defaultVoltage is the voltage of one phase (line to neutral), e.g. 230
+        # on a 3-phase 400V supply, not the line-to-line voltage.
         "defaultVoltage": 240,
         "numberOfPhases": 1,
 
@@ -99,16 +100,6 @@
         # You can comment that in, if you want to try this.
         # "realPowerFactorMinAmps": 0.9,
         # "realPowerFactorMaxAmps": 0.93,
-
-        # If green energy dips below the target charge amount while already charging,
-        # how much extra current should be drawn to keep charging?  This avoids frequently
-        # stopping and starting charging on a day with variable solar output, at the cost
-        # of drawing energy from sources other than solar.
-        "greenEnergyFlexAmps": 0,
-
-        # If you want to use start charging with greenEnergyFlexAmps as it delays stopping
-        # you have to set this config to true
-        "useFlexAmpsToStartCharge": false,
 
         # If the conditions for green energy briefly fail to match, how long should the
         # Track Green Energy policy continue to run?  (Mainly useful if you're adding
@@ -207,8 +198,9 @@
         # Only set "teslaProxyCert" when "teslaProxy" is set.
         #"teslaProxyCert": "/path/to/public_key.pem",
 
-        # The cloudUpdateInterval determines how often to poll certain
-        # data retrieved from the Tesla API to evaluate policy.
+        # The cloudUpdateInterval is the Powerwall module's cloud cache
+        # time: how long it keeps what it read from the Tesla cloud.
+        # It does not set how often cars are read.
         "cloudUpdateInterval": 1800,
 
         // wakeDelayMins: how long to wait (minutes) before issuing a Fleet API
@@ -227,6 +219,10 @@
         #"greenEnergyLimit": 90,
         #"scheduledLimit": 50,
         #"nonScheduledLimit": -1,
+
+        # Import price ceiling (currency per kWh) used by the example
+        # "Import Price Too High" pricing policy. See the "pricing" section.
+        #"maxImportPrice": 0.30,
 
         # Deprecated, use logLevel instead
         # Choose how much debugging info to output.
@@ -269,8 +265,8 @@
         # experimenting:
         #   Set fakeMaster = 0 to fake being a TWC Slave instead of Master.
         #   Set fakeMaster = 2 to display received RS-485 messages but not send any
-        #                      unless you use the debugging web interface
-        #                      (index.php?debugTWC=1) to send messages.
+        #                      unless you send them from the Debug page of the
+        #                      web interface.
         "fakeMaster": 1
     },
 
@@ -379,9 +375,27 @@
         #
         # They should primarily be used to abort charging when necessary.
         "emergency":[
+          # Example: stop charging when the live import price exceeds a ceiling.
+          # Requires a Pricing module (see the "pricing" section below) and
+          # config.maxImportPrice. Uncomment to enable.
+          # { "name": "Import Price Too High",
+          #   "match": [ "modules.StaticPricing.importPrice" ],
+          #   "condition": [ "gt" ],
+          #   "value": [ "config.maxImportPrice" ],
+          #   "charge_amps": 0 },
         ],
         # Rules in the before section here are evaluated after the Charge Now rule
         "before":[
+          # Example: charge at the scheduled rate while we are inside the
+          # cheapest forecast window. Requires a Pricing module with the
+          # Forecasting capability (e.g. Amber) and a "cheapWindow" configured
+          # in the "pricing" section below. Uncomment to enable.
+          # { "name": "Charge in cheapest window",
+          #   "match": [ "modules.AmberPricing.cheapWindowActive" ],
+          #   "condition": [ "eq" ],
+          #   "value": [ 1 ],
+          #   "charge_amps": "settings.scheduledAmpsMax",
+          #   "charge_limit": -1 },
         ],
         # Rules in the after section here are evaluated before the Unscheduled Charging
         # rule at the end of the policy.
@@ -453,19 +467,56 @@
 
       ]
     },
+    # Dynamic electricity pricing. Each module reports the current import/export
+    # price so that charging policy can react to it (see the example rule in the
+    # policy > extend > emergency section above, and docs/PolicyCustomization.md).
+    # All modules are disabled by default; enabling none leaves behaviour
+    # unchanged. Reference a module's price in a policy as, e.g.,
+    # "modules.AmberPricing.importPrice".
+    "pricing":{
+        # Static: fixed tariff. No network access; reports the configured prices.
+        "Static":{
+          "enabled": false,
+          "currency": "$",
+          "peak":{
+            "import": 0.30,
+            "export": 0.10
+          }
+        },
+        # aWATTar: Austrian/German spot market (prices in EUR/kWh).
+        "aWATTar":{
+          "enabled": false
+        },
+        # Amber Electric: Australian wholesale pricing (prices in AUD/kWh).
+        # Obtain an API token from the Amber app; siteId is auto-discovered.
+        "Amber":{
+          "enabled": false,
+          "token": "",
+          # Optional cheapest-window forecasting. When "hours" is set, Amber's
+          # forward price forecast is scanned for the cheapest contiguous block
+          # of that many hours; the module exposes cheapWindowActive = 1 while
+          # now falls inside it (see the "Charge in cheapest window" example
+          # policy above). Omit this block to leave forecasting inactive.
+          #"cheapWindow":{
+          #  "hours": 5,
+          #  "startHour": 22,
+          #  "endHour": 7
+          #}
+        }
+    },
     "logging":{
         # Logging configuration controls where status messages about the TWC
         # and charging sessions are logged. By default, we log to console and
         # not to file. Consider what logging to file may mean if you're using
         # a pi, it may mean considering alternatives such as a remote database
         # to reduce write cycles.
-
+        
         # Set use_icons to true (default) to use emoji icons for module categories,
         # or false to use text labels like [EMS], [Status], [Vehicle], etc.
         "use_icons": true,
-
+        
         "Console": {
-            "enabled": true
+            "enabled": true,
             # simple logging format omits timestamp and colorization
             #"simple": true
         },
@@ -628,7 +679,7 @@
             "outputGeneration":  "Solar"
         },
         "MQTT": {
-          "enabled": ###MQTT_ENABLED###,
+        "enabled": ###MQTT_ENABLED###,
           "brokerIP": "###MQTTBROKER###",
       # The MQTT EMS module subscribes to the below topics to read Consumption/Generation values
           "username": "###MQTTUSER###",
@@ -737,7 +788,25 @@
           # Consumption from grid as positive values or Push to grid as negative values.
           "uuidTotalGridW": "1cbbe494-a049-11eb-bcbc-0242ac130002"
         },
-
+        # The Victron module reads Consumption/Generation from a Victron CerboGX (or
+        # other GX device) over Modbus TCP. The default registers read the system-bus
+        # per-phase Output Power (consumption) and AC-coupled PV Output (generation).
+        "Victron": {
+          "enabled": false,
+          # IP address of the CerboGX / GX device
+          "serverIP": "192.168.1.2",
+          # Modbus TCP port (almost always 502)
+          "serverPort": 502,
+          # Default Modbus unit/device ID for the system bus (100 = system)
+          "unitID": 100,
+          # Modbus connection timeout in seconds
+          "timeout": 10
+          # Optional: override the registers read for each value. Each entry is a
+          # [register, unitID] pair; the values read are summed. Use these to read,
+          # for example, a specific grid meter instead of the system bus.
+          #"consumptionRegisters": [ [817, 100], [818, 100], [819, 100] ],
+          #"generationRegisters":  [ [808, 100], [809, 100], [810, 100] ]
+        },
         # The URL module allows fetching of consumption and generation data from URL items.
         # If you do not track one of these values (generation or consumption) via URL, leave
         # the parameter blank, and it will not be retrieved.
@@ -779,7 +848,7 @@
             "apiKey": "ABC123"
         },
         "MQTT": {
-            "enabled": ###MQTTENABLE###,
+         "enabled": ###MQTTENABLE###,
             "brokerIP": "###MQTTBROKER###",
             "topicPrefix": "TWC",
 
@@ -810,6 +879,10 @@
         # commandPolicy controls which modules may send state-changing commands
         # (start/stop charging, set charge rate, charge limit, wake):
         #   prefer_ble (default) - try TeslaBLE first, fall back to the Tesla API
+        #                          after a delay (5 minutes for a charge limit,
+        #                          60 seconds otherwise; at once when no free
+        #                          provider can serve the car), at most four
+        #                          sends per change
         #   ble_only             - commands go over BLE only, never the API.
         #                          Fleet API commands are billed per call, so this
         #                          caps API spend; reads still use the API.
@@ -889,10 +962,10 @@
     
         # Serial port connected to the Gen3 Neurio meter RS485 bus.
         # Use 'dmesg | grep ttyUSB' to identify the correct adapter.
-        "port": "###USBPORT_GEN3###",
+     "port": "###USBPORT_GEN3###",
     
         # Neurio meter serial parameters - do not change unless advised.
-        "baudrate": ###USBPORT_BAUDRATE###",
+       "baudrate": ###USBPORT_BAUDRATE###",
         "stopbits": 1,
         "bytesize": 8,
         "parity": "N",
