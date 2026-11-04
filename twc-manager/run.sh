@@ -62,7 +62,7 @@ if bashio::config.true 'mqtt.enabled'; then
     sed -i "s|###MQTT_GENERATION_TOPIC###|$mqtt_generation_topic|g" /etc/twcmanager/config.json
 else
     bashio::log.info "MQTT disabled"
-    sed -i "s|###MQTT_ENABLE###|false|g" /etc/twcmanager/config.json
+    sed -i "s|###MQTT_ENABLED###|false|g" /etc/twcmanager/config.json
 fi
 
 
