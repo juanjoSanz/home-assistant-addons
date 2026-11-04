@@ -53,7 +53,7 @@ if bashio::config.true 'mqtt.enabled'; then
 
     ## Change config file to use MQTT variables
     bashio::log.info "Setting MQTT broker ..."
-    sed -i "s|###MQTT_ENABLE###|true|g" /etc/twcmanager/config.json
+    sed -i "s|###MQTT_ENABLED###|true|g" /etc/twcmanager/config.json
     sed -i "s|###MQTT_BROKER###|$mqtt_broker|g" /etc/twcmanager/config.json
     sed -i "s|###MQTT_PORT###|$mqtt_port|g" /etc/twcmanager/config.json
     sed -i "s|###MQTT_USER###|$mqtt_user|g" /etc/twcmanager/config.json

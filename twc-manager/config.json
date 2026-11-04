@@ -334,7 +334,7 @@
         "listenPort": 8080
       },
       "MQTT": {
-        "enabled": ####MQTT_ENABLED###,
+        "enabled": ###MQTT_ENABLED###,
         "brokerIP": "###MQTT_BROKER###",
         "topicPrefix": "TWC",
         "username": "###MQTT_USER###",
@@ -848,7 +848,7 @@
             "apiKey": "ABC123"
         },
         "MQTT": {
-         "enabled": ###MQTTENABLE###,
+         "enabled": ###MQTT_ENABLED###,
             "brokerIP": "###MQTTBROKER###",
             "topicPrefix": "TWC",
 
