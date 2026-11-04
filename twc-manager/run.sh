@@ -44,12 +44,12 @@ fi
 if bashio::config.true 'mqtt.enabled'; then
 
     ## Get variables from the user config options.
-    mqtt_broker=$(bashio::config 'mqtt.mqttBroker')
-    mqtt_port=$(bashio::config 'mqtt.mqttPort')
-    mqtt_user=$(bashio::config 'mqtt.mqttUser')
-    mqtt_pass=$(bashio::config 'mqtt.mqttPass')
-    mqtt_consumption_topic=$(bashio::config 'mqtt.mqttConsumptionTopic')
-    mqtt_generation_topic=$(bashio::config 'mqtt.mqttGenerationTopic')
+    mqtt_broker=$(bashio::config 'mqtt.host')
+    mqtt_port=$(bashio::config 'mqtt.port')
+    mqtt_user=$(bashio::config 'mqtt.user')
+    mqtt_pass=$(bashio::config 'mqtt.password')
+    mqtt_consumption_topic=$(bashio::config 'mqtt.mqtt_consumption_topic')
+    mqtt_generation_topic=$(bashio::config 'mqtt.mqtt_generation_topic')
 
     ## Change config file to use MQTT variables
     bashio::log.info "Setting MQTT broker ..."
@@ -65,8 +65,6 @@ else
     sed -i "s|###MQTT_ENABLED###|false|g" /etc/twcmanager/config.json
 fi
 
-
-
 #cat /etc/twcmanager/config.json | grep -v "\s*#" | bashio::log.debug
 #diff /config.json /etc/twcmanager/config.json
 bashio::log.debug "--- Config changes: ---"
@@ -74,6 +72,7 @@ diff -u  /config.json /etc/twcmanager/config.json | while IFS= read -r linea; do
     bashio::log.debug "${linea}"
 done
 
+bashio::log.info "Starting TWCManager..."
+export PYTHONUNBUFFERED=1
 
-
-/usr/bin/python3 -m TWCManager 
+exec /usr/bin/python3 -m TWCManager 
