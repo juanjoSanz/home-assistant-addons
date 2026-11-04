@@ -3,7 +3,7 @@
 bashio::log.info $(cat /etc/os-release)
 bashio::log.info "Preparing to start..."
 
-debug_enabled=$(bashio::config 'debug.enabled')
+debug_enabled=$(bashio::config 'debug_enabled')
 if [ "$debug_enabled" = "true" ]; then
     bashio::log.info "Debug enabled, setting log level to DEBUG"
 fi
